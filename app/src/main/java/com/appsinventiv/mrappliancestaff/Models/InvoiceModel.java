@@ -5,6 +5,7 @@ public class InvoiceModel {
     OrderModel order;
     long time;
 
+
     public InvoiceModel(String invoiceId, OrderModel order, long time) {
         this.invoiceId = invoiceId;
         this.order = order;

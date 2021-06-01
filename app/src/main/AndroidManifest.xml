@@ -108,6 +108,9 @@
 
         </activity>
         <activity android:name=".Activities.SolutionTracking" />
+        <activity android:name=".Activities.Invoices.InvoicesActivity" />
+        <activity android:name=".Activities.Invoices.InvoicesList" />
+        <activity android:name=".Activities.PaymentsList" />
     </application>
 
 </manifest>

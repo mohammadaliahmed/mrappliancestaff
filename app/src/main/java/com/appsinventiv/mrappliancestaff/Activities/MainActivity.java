@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.appsinventiv.mrappliancestaff.Activities.Invoices.InvoicesActivity;
+import com.appsinventiv.mrappliancestaff.Activities.Invoices.InvoicesList;
 import com.appsinventiv.mrappliancestaff.Utils.SharedPrefs;
 
 import android.view.View;
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     ImageView nav;
     private DrawerLayout drawer;
-    RelativeLayout currentAssignments, myratings, assignmentHistory;
+    RelativeLayout currentAssignments, myratings, assignmentHistory,createInvoice;
     TextView username;
     DatabaseReference mDatabase;
 
@@ -52,10 +54,17 @@ public class MainActivity extends AppCompatActivity
 
         nav = findViewById(R.id.nav);
         currentAssignments = findViewById(R.id.currentAssignments);
+        createInvoice = findViewById(R.id.createInvoice);
         myratings = findViewById(R.id.myratings);
 //        complaints = findViewById(R.id.complaints);
         assignmentHistory = findViewById(R.id.assignmentHistory);
 
+        createInvoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, InvoicesList.class));
+            }
+        });
 
         currentAssignments.setOnClickListener(new View.OnClickListener() {
             @Override
