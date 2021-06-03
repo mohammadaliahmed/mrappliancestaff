@@ -42,6 +42,7 @@ public class PreviewInvoiceAdapter extends RecyclerView.Adapter<PreviewInvoiceAd
         InvoiceItemModel model = itemList.get(position);
         holder.description.setText(model.getDescription());
         holder.rate.setText("" + model.getPrice());
+        holder.serial.setText((position + 1) + ". ");
         holder.qty.setText("" + model.getQuantity());
         holder.amount.setText("" + (model.getQuantity() * model.getPrice()));
 
@@ -53,12 +54,13 @@ public class PreviewInvoiceAdapter extends RecyclerView.Adapter<PreviewInvoiceAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView description, rate, qty, amount;
+        TextView description, rate, qty, amount, serial;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             description = itemView.findViewById(R.id.description);
             rate = itemView.findViewById(R.id.rate);
+            serial = itemView.findViewById(R.id.serial);
             qty = itemView.findViewById(R.id.qty);
             amount = itemView.findViewById(R.id.amount);
         }

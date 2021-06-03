@@ -42,7 +42,7 @@ public class PaymentItemsAdapter extends RecyclerView.Adapter<PaymentItemsAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final PaymentModel model = itemList.get(position);
-        holder.date.setText(model.getDate());
+        holder.date.setText(model.getDate() + " (" + model.getPaymentMode() + ")");
         holder.amount.setText("AED " + model.getPrice());
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

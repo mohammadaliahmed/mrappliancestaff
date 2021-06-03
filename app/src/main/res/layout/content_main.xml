@@ -189,6 +189,50 @@
             app:cardElevation="5dp">
 
             <RelativeLayout
+                android:id="@+id/expenses"
+                android:layout_width="match_parent"
+
+                android:layout_height="match_parent"
+                android:clickable="true"
+
+                android:foreground="?android:attr/selectableItemBackground">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/ic_expense" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/next" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="60dp"
+                    android:text="Expenses"
+                    android:textColor="#000"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+
+            android:layout_marginRight="20dp"
+            app:cardElevation="5dp">
+
+            <RelativeLayout
                 android:id="@+id/assignmentHistory"
                 android:layout_width="match_parent"
 

@@ -368,11 +368,13 @@ public class EditInvoice extends Fragment {
         subtotal.setText("AED " + total);
 
         int totalPaid = 0;
-        ArrayList<PaymentModel> listt = new ArrayList<>(invoiceModel.getPayments().values());
-        for (PaymentModel model : listt) {
-            totalPaid = totalPaid + model.getPrice();
+        if(invoiceModel!=null && invoiceModel.getPayments()!=null) {
+            ArrayList<PaymentModel> listt = new ArrayList<>(invoiceModel.getPayments().values());
+            for (PaymentModel model : listt) {
+                totalPaid = totalPaid + model.getPrice();
+            }
+            paid.setText("AED " + totalPaid);
+            balance.setText("AED " + (invoiceModel.getTotal() - totalPaid));
         }
-        paid.setText("AED " + totalPaid);
-        balance.setText("AED " + (invoiceModel.getTotal() - totalPaid));
     }
 }

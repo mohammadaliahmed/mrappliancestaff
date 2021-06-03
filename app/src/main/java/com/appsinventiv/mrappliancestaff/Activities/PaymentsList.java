@@ -17,10 +17,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,6 +35,7 @@ import com.appsinventiv.mrappliancestaff.Adapters.PaymentItemsAdapter;
 import com.appsinventiv.mrappliancestaff.Models.CustomInvoiceModel;
 import com.appsinventiv.mrappliancestaff.Models.InvoiceModel;
 import com.appsinventiv.mrappliancestaff.Models.PaymentModel;
+import com.appsinventiv.mrappliancestaff.Models.User;
 import com.appsinventiv.mrappliancestaff.R;
 import com.appsinventiv.mrappliancestaff.Utils.CommonUtils;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -59,6 +63,7 @@ public class PaymentsList extends AppCompatActivity {
     private CustomInvoiceModel invoiceModel;
     TextView total, paid, balance;
     TextView invoiceIdTv;
+    private String paymentMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +78,7 @@ public class PaymentsList extends AppCompatActivity {
         invoiceId = getIntent().getStringExtra("invoiceId");
         total = findViewById(R.id.total);
         invoiceIdTv = findViewById(R.id.invoiceIdTv);
-        invoiceIdTv.setText("Invoice: "+invoiceId);
+        invoiceIdTv.setText("Invoice: " + invoiceId);
         paid = findViewById(R.id.paid);
         balance = findViewById(R.id.balance);
         back = findViewById(R.id.back);
@@ -139,6 +144,7 @@ public class PaymentsList extends AppCompatActivity {
 
         final TextView pickDate = layout.findViewById(R.id.pickDate);
         Button addPayment = layout.findViewById(R.id.addPayment);
+        final Spinner spinner = layout.findViewById(R.id.spinner);
         final EditText amount = layout.findViewById(R.id.amount);
         final Calendar c = Calendar.getInstance();
         final int mYear = c.get(Calendar.YEAR);
@@ -170,9 +176,11 @@ public class PaymentsList extends AppCompatActivity {
                     CommonUtils.showToast("Please select Date");
                 } else if (amount.getText().length() == 0) {
                     amount.setError("Enter Amount");
+                } else if (paymentMode.equalsIgnoreCase("Select Payment method")) {
+                   CommonUtils.showToast("Please select payment method");
                 } else {
                     String key = mDatabase.push().getKey();
-                    PaymentModel model = new PaymentModel(key, Integer.parseInt(amount.getText().toString()), dateSelected[0]);
+                    PaymentModel model = new PaymentModel(key, Integer.parseInt(amount.getText().toString()), dateSelected[0], paymentMode);
                     mDatabase.child("Invoices").child(invoiceId).child("payments").child(key).setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -183,7 +191,33 @@ public class PaymentsList extends AppCompatActivity {
                 }
             }
         });
+        final ArrayList<String> items = new ArrayList<>();
 
+        items.add("Select Payment method");
+        items.add("Cash");
+        items.add("Bank");
+        items.add("Credit Card");
+        items.add("Online");
+        items.add("Other");
+
+
+        final ArrayAdapter<String> adaptera = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        spinner.setAdapter(adaptera);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+                paymentMode = items.get(i);
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         dialog.show();
     }

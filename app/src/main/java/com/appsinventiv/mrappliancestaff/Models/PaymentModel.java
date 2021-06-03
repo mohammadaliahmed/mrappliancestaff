@@ -3,16 +3,25 @@ package com.appsinventiv.mrappliancestaff.Models;
 public class PaymentModel {
     String id;
     int price;
-    String date;
+    String date,paymentMode;
 
     public PaymentModel() {
 
     }
 
-    public PaymentModel(String id, int price, String date) {
+    public PaymentModel(String id, int price, String date,String paymentMode) {
         this.id = id;
+        this.paymentMode = paymentMode;
         this.price = price;
         this.date = date;
+    }
+
+    public String getPaymentMode() {
+        return paymentMode;
+    }
+
+    public void setPaymentMode(String paymentMode) {
+        this.paymentMode = paymentMode;
     }
 
     public String getId() {

@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     ImageView nav;
     private DrawerLayout drawer;
-    RelativeLayout currentAssignments, myratings, assignmentHistory,createInvoice;
+    RelativeLayout currentAssignments, myratings, assignmentHistory, createInvoice, expenses;
     TextView username;
     DatabaseReference mDatabase;
 
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity
         username.setText(SharedPrefs.getUser().getName());
 
         nav = findViewById(R.id.nav);
+        expenses = findViewById(R.id.expenses);
         currentAssignments = findViewById(R.id.currentAssignments);
         createInvoice = findViewById(R.id.createInvoice);
         myratings = findViewById(R.id.myratings);
@@ -63,6 +64,11 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, InvoicesList.class));
+            }
+        });
+        expenses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
             }
         });
 

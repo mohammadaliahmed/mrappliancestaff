@@ -1,9 +1,16 @@
 package com.appsinventiv.mrappliancestaff.Activities.Invoices;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class PreviewInvoice extends Fragment {
@@ -35,8 +43,10 @@ public class PreviewInvoice extends Fragment {
     DatabaseReference mDatabase;
     private CustomInvoiceModel customInvoiceModel;
     TextView total;
-    TextView billTo;
+    TextView billTo, invoiceId;
     TextView paid, balance;
+    RelativeLayout invoiceLayout;
+    ImageView sendInvoice;
 
     @Nullable
     @Override
@@ -44,6 +54,9 @@ public class PreviewInvoice extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_preview_invoice, container, false);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         recycler = rootView.findViewById(R.id.recycler);
+        invoiceLayout = rootView.findViewById(R.id.invoiceLayout);
+        invoiceId = rootView.findViewById(R.id.invoiceId);
+        sendInvoice = rootView.findViewById(R.id.sendInvoice);
         billTo = rootView.findViewById(R.id.billTo);
         balance = rootView.findViewById(R.id.balance);
         paid = rootView.findViewById(R.id.paid);
@@ -51,8 +64,34 @@ public class PreviewInvoice extends Fragment {
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         adapter = new PreviewInvoiceAdapter(getContext(), itemList);
         recycler.setAdapter(adapter);
+        sendInvoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewToBitmap(invoiceLayout, invoiceLayout.getWidth(), invoiceLayout.getHeight());
+            }
+        });
         return rootView;
     }
+
+    public Uri getImageUri(Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(getContext().getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    public Bitmap viewToBitmap(View view, int width, int height) {
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+//        bitmap = view.getDrawingCache();
+
+        Uri ui = getImageUri(bitmap);
+        CommonUtils.showToast("Saved Image");
+//        uploadPicture(CommonUtils.getRealPathFromURI(ui));
+        return bitmap;
+    }
+
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -74,6 +113,7 @@ public class PreviewInvoice extends Fragment {
                     if (customInvoiceModel != null) {
                         itemList = new ArrayList<>(customInvoiceModel.getInvoiceItems().values());
                         adapter.setItemList(itemList);
+                        invoiceId.setText("Invoice: " + customInvoiceModel.getInvoiceId() + "\nDate: " + CommonUtils.getDateOnly(customInvoiceModel.getTime()));
                         total.setText("AED " + customInvoiceModel.getTotal());
                         billTo.setText("To: \n " + customInvoiceModel.getUser().getFirstname() + " " + customInvoiceModel.getUser().getLastname() + "\n" +
                                 customInvoiceModel.getUser().getAddress() + "\n" + customInvoiceModel.getUser().getPhone() + "\n" + customInvoiceModel.getUser().getEmail());
@@ -97,12 +137,15 @@ public class PreviewInvoice extends Fragment {
         total.setText("AED " + totall);
 
         int totalPaid = 0;
-        ArrayList<PaymentModel> listt = new ArrayList<>(customInvoiceModel.getPayments().values());
-        for (PaymentModel model : listt) {
-            totalPaid = totalPaid + model.getPrice();
+        if (customInvoiceModel != null && customInvoiceModel.getPayments() != null) {
+
+            ArrayList<PaymentModel> listt = new ArrayList<>(customInvoiceModel.getPayments().values());
+            for (PaymentModel model : listt) {
+                totalPaid = totalPaid + model.getPrice();
+            }
+            paid.setText("AED " + totalPaid);
+            balance.setText("AED " + (customInvoiceModel.getTotal() - totalPaid));
         }
-        paid.setText("AED " + totalPaid);
-        balance.setText("AED " + (customInvoiceModel.getTotal() - totalPaid));
     }
 
 }
