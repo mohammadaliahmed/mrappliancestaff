@@ -37,6 +37,7 @@ import com.appsinventiv.mrappliancestaff.Models.SubServiceModel;
 import com.appsinventiv.mrappliancestaff.Models.User;
 import com.appsinventiv.mrappliancestaff.R;
 import com.appsinventiv.mrappliancestaff.Utils.CommonUtils;
+import com.appsinventiv.mrappliancestaff.Utils.SharedPrefs;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPoolAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -115,8 +116,9 @@ public class EditInvoice extends Fragment {
             @Override
             public void onClick(View v) {
                 calculateTotal();
-                CustomInvoiceModel model = new CustomInvoiceModel(invoiceId, invoiceItemMap, total, System.currentTimeMillis(), "pending", selectedUser);
+                CustomInvoiceModel model = new CustomInvoiceModel(invoiceId, invoiceItemMap, total, System.currentTimeMillis(), "pending", selectedUser, SharedPrefs.getUser().getUsername());
                 HashMap<String, Object> map = new HashMap<>();
+                model.setPayments(invoiceModel.getPayments());
                 map.put(invoiceId, model);
                 mDatabase.child("Invoices").updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -368,7 +370,7 @@ public class EditInvoice extends Fragment {
         subtotal.setText("AED " + total);
 
         int totalPaid = 0;
-        if(invoiceModel!=null && invoiceModel.getPayments()!=null) {
+        if (invoiceModel != null && invoiceModel.getPayments() != null) {
             ArrayList<PaymentModel> listt = new ArrayList<>(invoiceModel.getPayments().values());
             for (PaymentModel model : listt) {
                 totalPaid = totalPaid + model.getPrice();

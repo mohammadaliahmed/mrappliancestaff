@@ -16,6 +16,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.appsinventiv.mrappliancestaff.Adapters.InvoiceListAdapter;
 import com.appsinventiv.mrappliancestaff.Models.CustomInvoiceModel;
 import com.appsinventiv.mrappliancestaff.R;
+import com.appsinventiv.mrappliancestaff.Utils.SharedPrefs;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -86,8 +87,10 @@ public class InvoicesList extends AppCompatActivity {
                     invoiceId = dataSnapshot.getChildrenCount();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         CustomInvoiceModel model = snapshot.getValue(CustomInvoiceModel.class);
-                        if (model != null) {
-                            itemList.add(model);
+                        if (model.getStaffMember().equalsIgnoreCase(SharedPrefs.getUser().getUsername())) {
+                            if (model != null) {
+                                itemList.add(model);
+                            }
                         }
                     }
                     Collections.sort(itemList, new Comparator<CustomInvoiceModel>() {

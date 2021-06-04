@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.appsinventiv.mrappliancestaff.Activities.Expenses.ExpnesesList;
 import com.appsinventiv.mrappliancestaff.Activities.Invoices.InvoicesActivity;
 import com.appsinventiv.mrappliancestaff.Activities.Invoices.InvoicesList;
 import com.appsinventiv.mrappliancestaff.Utils.SharedPrefs;
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity
         expenses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ExpnesesList.class));
             }
         });
 

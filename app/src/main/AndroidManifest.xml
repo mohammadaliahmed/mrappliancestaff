@@ -37,7 +37,7 @@
         <activity
             android:name="com.appsinventiv.mrappliancestaff.Activities.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name="com.appsinventiv.mrappliancestaff.Activities.Login"
             android:theme="@style/AppTheme.NoActionBar"
@@ -111,6 +111,7 @@
         <activity android:name=".Activities.Invoices.InvoicesActivity" />
         <activity android:name=".Activities.Invoices.InvoicesList" />
         <activity android:name=".Activities.PaymentsList" />
+        <activity android:name=".Activities.Expenses.ExpnesesList" />
     </application>
 
 </manifest>
