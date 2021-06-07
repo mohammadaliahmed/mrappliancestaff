@@ -103,7 +103,7 @@ public class PaymentsList extends AppCompatActivity {
             public void onDelete(PaymentModel model) {
                 showDeleteAlert(model);
             }
-        });
+        }); 
         recycler.setAdapter(adapter);
         getPaymentsFromDb();
     }

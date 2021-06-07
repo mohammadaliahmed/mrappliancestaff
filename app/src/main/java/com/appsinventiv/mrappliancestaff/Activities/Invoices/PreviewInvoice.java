@@ -47,6 +47,7 @@ public class PreviewInvoice extends Fragment {
     TextView paid, balance;
     RelativeLayout invoiceLayout;
     ImageView sendInvoice;
+    TextView companyDetails;
 
     @Nullable
     @Override
@@ -57,6 +58,7 @@ public class PreviewInvoice extends Fragment {
         invoiceLayout = rootView.findViewById(R.id.invoiceLayout);
         invoiceId = rootView.findViewById(R.id.invoiceId);
         sendInvoice = rootView.findViewById(R.id.sendInvoice);
+        companyDetails = rootView.findViewById(R.id.companyDetails);
         billTo = rootView.findViewById(R.id.billTo);
         balance = rootView.findViewById(R.id.balance);
         paid = rootView.findViewById(R.id.paid);
@@ -70,7 +72,25 @@ public class PreviewInvoice extends Fragment {
                 viewToBitmap(invoiceLayout, invoiceLayout.getWidth(), invoiceLayout.getHeight());
             }
         });
+        getAddressFromDb();
         return rootView;
+    }
+
+    private void getAddressFromDb() {
+        mDatabase.child("Admin").child("address").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    String addd = dataSnapshot.getValue(String.class);
+                    companyDetails.setText("From: \n" + addd);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public Uri getImageUri(Bitmap inImage) {
