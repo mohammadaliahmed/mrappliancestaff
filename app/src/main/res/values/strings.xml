@@ -10,5 +10,11 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_maps">Map</string>
+    <string name="action_close">Close</string>
+    <string name="action_next">Next</string>
+    <string name="action_submit">Submit</string>
+
+    <string name="title_select_date">Select Date</string>
+    <string name="title_select_time">Select Time</string>
 
 </resources>

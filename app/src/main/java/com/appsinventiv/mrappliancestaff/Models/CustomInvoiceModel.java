@@ -13,20 +13,40 @@ public class CustomInvoiceModel {
     User user;
     HashMap<String,PaymentModel> payments;
     String staffMember;
+    String appointmentId;
+    String  customerStatus;
 
     public CustomInvoiceModel() {
     }
 
-    public CustomInvoiceModel(String invoiceId, HashMap<String,InvoiceItemModel> invoiceItems, int total, long time, String status,User user,String staffMember) {
+    public CustomInvoiceModel(String invoiceId, HashMap<String,InvoiceItemModel> invoiceItems, int total, long time, String status,
+                              User user,String staffMember,String appointmentId,String customerStatus) {
         this.invoiceId = invoiceId;
         this.invoiceItems = invoiceItems;
         this.status = status;
         this.total = total;
+        this.customerStatus = customerStatus;
         this.user = user;
         this.time = time;
+        this.appointmentId = appointmentId;
         this.staffMember = staffMember;
     }
 
+    public String getCustomerStatus() {
+        return customerStatus;
+    }
+
+    public void setCustomerStatus(String customerStatus) {
+        this.customerStatus = customerStatus;
+    }
+
+    public String getAppointmentId() {
+        return appointmentId;
+    }
+
+    public void setAppointmentId(String appointmentId) {
+        this.appointmentId = appointmentId;
+    }
 
     public String getStaffMember() {
         return staffMember;

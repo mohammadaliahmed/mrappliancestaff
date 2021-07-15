@@ -1,5 +1,7 @@
 package com.appsinventiv.mrappliancestaff.Activities.Invoices;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,7 +18,9 @@ import androidx.viewpager.widget.ViewPager;
 import com.appsinventiv.mrappliancestaff.Adapters.InvoiceListAdapter;
 import com.appsinventiv.mrappliancestaff.Models.CustomInvoiceModel;
 import com.appsinventiv.mrappliancestaff.R;
+import com.appsinventiv.mrappliancestaff.Utils.CommonUtils;
 import com.appsinventiv.mrappliancestaff.Utils.SharedPrefs;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -55,7 +59,17 @@ public class InvoicesList extends AppCompatActivity {
         createInvoice = findViewById(R.id.createInvoice);
         recycler = findViewById(R.id.recycler);
         recycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        adapter = new InvoiceListAdapter(this, itemList);
+        adapter = new InvoiceListAdapter(this, itemList, new InvoiceListAdapter.InvoicesCallback() {
+            @Override
+            public void onApproved(CustomInvoiceModel model) {
+                showApproveRejectAlert(model, "approved");
+            }
+
+            @Override
+            public void onReject(CustomInvoiceModel model) {
+                showApproveRejectAlert(model, "rejected");
+            }
+        });
         recycler.setAdapter(adapter);
         createInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +89,33 @@ public class InvoicesList extends AppCompatActivity {
 
         getDataFromServer();
 
+    }
+
+    private void showApproveRejectAlert(CustomInvoiceModel model, String approved) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Alert");
+        builder.setMessage("Did customer " + approved + " this invoice ? ");
+
+        // add the buttons
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                mDatabase.child("Invoices").child(model.getInvoiceId()).child("customerStatus").setValue(approved).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        CommonUtils.showToast(approved);
+                        dialogInterface.cancel();
+                    }
+                });
+
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void getDataFromServer() {

@@ -6,6 +6,8 @@ public class ServicemanModel {
     int age;
     long cnic;
     String imageUrl;
+    int salary;
+    String skills;
 
     public ServicemanModel() {
     }
@@ -22,6 +24,22 @@ public class ServicemanModel {
         this.age = age;
         this.cnic = cnic;
         this.imageUrl = imageUrl;
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
+
+    public String getSkills() {
+        return skills;
+    }
+
+    public void setSkills(String skills) {
+        this.skills = skills;
     }
 
     public String getId() {

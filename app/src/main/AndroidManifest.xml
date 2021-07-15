@@ -112,6 +112,16 @@
         <activity android:name=".Activities.Invoices.InvoicesList" />
         <activity android:name=".Activities.PaymentsList" />
         <activity android:name=".Activities.Expenses.ExpnesesList" />
+        <activity android:name=".Activities.Jobs.JobsActivity" />
+        <activity android:name=".Activities.Jobs.NewAppointment" />
+        <activity android:name=".Activities.Jobs.AppointmentList" />
+        <activity android:name=".Activities.Calender.CalenderView" />
+        <activity android:name=".Activities.Calender.NewCalenderView" />
+        <activity android:name=".Activities.MyAccount" />
+        <activity android:name=".Activities.Salaries.ViewSalary" />
+        <activity android:name=".Activities.Salaries.SalariesList" />
+        <activity android:name=".Activities.Jobs.WorkHistory"/>
+        <activity android:name=".Activities.Jobs.AppointmentListStatus" />
     </application>
 
 </manifest>

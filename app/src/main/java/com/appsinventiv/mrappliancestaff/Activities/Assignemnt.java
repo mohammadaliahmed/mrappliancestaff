@@ -372,8 +372,8 @@ public class Assignemnt extends AppCompatActivity implements PicturesUploaded {
                     public void onImageReceived(Uri imageUri) {
                         mSelected.add(imageUri);
                         try {
-
-                            String commpress = CompressImage.compressImage("" + imageUri, Assignemnt.this);
+                            CompressImage compressImage = new CompressImage(Assignemnt.this);
+                            String commpress = compressImage.compressImage("" + imageUri);
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(Assignemnt.this.getContentResolver(), Uri.fromFile(new File(commpress)));
 
                             Uri tempUri = getImageUri(mark(bitmap));
@@ -399,8 +399,8 @@ public class Assignemnt extends AppCompatActivity implements PicturesUploaded {
                     public void onImageReceived(Uri imageUri) {
                         mSelected.add(imageUri);
                         try {
-
-                            String commpress = CompressImage.compressImage("" + imageUri, Assignemnt.this);
+                            CompressImage compressImage = new CompressImage(Assignemnt.this);
+                            String commpress = compressImage.compressImage("" + imageUri);
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(Assignemnt.this.getContentResolver(), Uri.fromFile(new File(commpress)));
 
                             Uri tempUri = getImageUri(mark(bitmap));
@@ -426,8 +426,8 @@ public class Assignemnt extends AppCompatActivity implements PicturesUploaded {
                     public void onImageReceived(Uri imageUri) {
                         mSelected.add(imageUri);
                         try {
-
-                            String commpress = CompressImage.compressImage("" + imageUri, Assignemnt.this);
+                            CompressImage compressImage = new CompressImage(Assignemnt.this);
+                            String commpress = compressImage.compressImage("" + imageUri);
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(Assignemnt.this.getContentResolver(), Uri.fromFile(new File(commpress)));
 
                             Uri tempUri = getImageUri(mark(bitmap));
@@ -457,8 +457,8 @@ public class Assignemnt extends AppCompatActivity implements PicturesUploaded {
                         try {
 //                            mark(bitmap,"OrderId:+"+orderId+"\nTime: "+System.currentTimeMillis());
 //                            image.setImageBitmap(mark(bitmap, "OrderId:+" + orderId + "\nTime: " + System.currentTimeMillis()));
-
-                            String commpress = CompressImage.compressImage("" + imageUri, Assignemnt.this);
+                            CompressImage compressImage = new CompressImage(Assignemnt.this);
+                            String commpress = compressImage.compressImage("" + imageUri);
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(Assignemnt.this.getContentResolver(), Uri.fromFile(new File(commpress)));
 
                             Uri tempUri = getImageUri(mark(bitmap));
@@ -526,10 +526,6 @@ public class Assignemnt extends AppCompatActivity implements PicturesUploaded {
         return true;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-    }
 
     private void setUpBeforeImgs() {
         RecyclerView beforeRecycler;

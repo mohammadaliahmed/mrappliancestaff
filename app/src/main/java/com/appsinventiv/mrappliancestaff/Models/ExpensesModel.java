@@ -1,14 +1,15 @@
 package com.appsinventiv.mrappliancestaff.Models;
 
 public class ExpensesModel {
-    String id, title,description, category,date,status,staffMember;
+    String id, title,description, category,date,status,staffMember,imgUrl;
     int price;
 
-    public ExpensesModel(String id, String title, String description, String category, String date, String status, String staffMember, int price) {
+    public ExpensesModel(String id, String title, String description, String category, String date, String status, String staffMember, int price,String imgUrl) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.category = category;
+        this.imgUrl = imgUrl;
         this.date = date;
         this.status = status;
         this.staffMember = staffMember;
@@ -16,6 +17,14 @@ public class ExpensesModel {
     }
     public ExpensesModel() {
 
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     public String getId() {

@@ -25,16 +25,17 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MyRatings extends AppCompatActivity {
     ImageView back;
     RatingsAdapter adapter;
-    private ArrayList<RatingModel> itemList=new ArrayList<>();
+    private ArrayList<RatingModel> itemList = new ArrayList<>();
     RecyclerView recyclerview;
     DatabaseReference mDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_ratings);
-        recyclerview=findViewById(R.id.recyclerview);
-        back=findViewById(R.id.back);
-        mDatabase=FirebaseDatabase.getInstance().getReference();
+        recyclerview = findViewById(R.id.recyclerview);
+        back = findViewById(R.id.back);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,14 +44,10 @@ public class MyRatings extends AppCompatActivity {
             }
         });
 
-        adapter=new RatingsAdapter(this,itemList);
-        recyclerview.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
+        adapter = new RatingsAdapter(this, itemList);
+        recyclerview.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         recyclerview.setAdapter(adapter);
         getDataFromDB();
-
-
-
-
 
     }
 
@@ -58,11 +55,11 @@ public class MyRatings extends AppCompatActivity {
         mDatabase.child("Ratings").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue()!=null){
-                    for (DataSnapshot snapshot:dataSnapshot.getChildren()){
-                        RatingModel model=snapshot.getValue(RatingModel.class);
-                        if(model!=null){
-                            if(model.getRatingTo().equalsIgnoreCase(SharedPrefs.getUser().getUsername())){
+                if (dataSnapshot.getValue() != null) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        RatingModel model = snapshot.getValue(RatingModel.class);
+                        if (model != null) {
+                            if (model.getRatingTo().equalsIgnoreCase(SharedPrefs.getUser().getUsername())) {
                                 itemList.add(model);
                             }
                         }

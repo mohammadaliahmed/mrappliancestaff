@@ -27,6 +27,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.appsinventiv.mrappliancestaff.Activities.Jobs.NewAppointment;
 import com.appsinventiv.mrappliancestaff.Activities.PaymentsList;
 import com.appsinventiv.mrappliancestaff.Adapters.InvoiceItemAdapter;
 import com.appsinventiv.mrappliancestaff.Models.CustomInvoiceModel;
@@ -75,6 +76,7 @@ public class EditInvoice extends Fragment {
     RelativeLayout payments;
     TextView markAsPaid;
     TextView paid, balance, paidDate;
+    Button createNewCustomer;
 
     @Nullable
     @Override
@@ -91,6 +93,7 @@ public class EditInvoice extends Fragment {
         markAsPaid = rootView.findViewById(R.id.markAsPaid);
         itemsRecycler = rootView.findViewById(R.id.itemsRecycler);
         date = rootView.findViewById(R.id.date);
+        createNewCustomer = rootView.findViewById(R.id.createNewCustomer);
         saveInvoice = rootView.findViewById(R.id.saveInvoice);
         userChosen = rootView.findViewById(R.id.userChosen);
         invoiceIdTv = rootView.findViewById(R.id.invoiceId);
@@ -102,6 +105,17 @@ public class EditInvoice extends Fragment {
                 showDleteAlert(model);
             }
 
+        });
+        if (NewAppointment.newAppointmentUsr != null) {
+            selectedUser = NewAppointment.newAppointmentUsr;
+            userChosen.setVisibility(View.VISIBLE);
+            userChosen.setText("User: " + selectedUser.getFullName());
+        }
+        createNewCustomer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCreateCustomerAlert();
+            }
         });
         itemsRecycler.setAdapter(adapter);
         addItem.setOnClickListener(new View.OnClickListener() {
@@ -116,13 +130,22 @@ public class EditInvoice extends Fragment {
             @Override
             public void onClick(View v) {
                 calculateTotal();
-                CustomInvoiceModel model = new CustomInvoiceModel(invoiceId, invoiceItemMap, total, System.currentTimeMillis(), "pending", selectedUser, SharedPrefs.getUser().getUsername());
+                CustomInvoiceModel model = new CustomInvoiceModel(invoiceId, invoiceItemMap, total,
+                        System.currentTimeMillis(), "pending", selectedUser, SharedPrefs.getUser().getUsername(), NewAppointment.id,"");
                 HashMap<String, Object> map = new HashMap<>();
-                model.setPayments(invoiceModel.getPayments());
+                if (invoiceModel != null) {
+                    model.setPayments(invoiceModel.getPayments());
+                } else {
+                    model.setPayments(new HashMap<>());
+                }
+
                 map.put(invoiceId, model);
                 mDatabase.child("Invoices").updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        if (NewAppointment.id != null) {
+                            mDatabase.child("Appointments").child(NewAppointment.id).child("invoiceId").setValue("" + invoiceId);
+                        }
                         CommonUtils.showToast("Saved");
                     }
                 });
@@ -150,6 +173,74 @@ public class EditInvoice extends Fragment {
         });
 
         return rootView;
+    }
+
+    private void showCreateCustomerAlert() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        View layout = layoutInflater.inflate(R.layout.alert_dialog_add_customer, null);
+
+        dialog.setContentView(layout);
+
+        EditText name = layout.findViewById(R.id.name);
+        EditText phone = layout.findViewById(R.id.phone);
+        EditText address = layout.findViewById(R.id.address);
+        Button save = layout.findViewById(R.id.save);
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (name.getText().length() < 5) {
+                    name.setError("Enter full Name");
+                } else if (phone.getText().length() < 5) {
+                    phone.setError("Enter phone");
+                } else if (address.getText().length() < 5) {
+                    address.setError("Enter address");
+                } else {
+
+                    String[] fullname = name.getText().toString().split(" ");
+                    try {
+
+                        String abc = fullname[1];
+                        selectedUser = new User(
+
+                                name.getText().toString().split(" ")[0],
+                                name.getText().toString().split(" ")[1],
+                                (name.getText().toString().replace(" ", "")).toLowerCase(),
+                                (name.getText().toString().replace(" ", "")).toLowerCase(),
+                                name.getText().toString().replace(" ", "") + "@gmail.com",
+                                phone.getText().toString(),
+                                phone.getText().toString(),
+                                address.getText().toString(),
+                                "",
+                                System.currentTimeMillis(),
+                                true
+                        );
+                        mDatabase.child("Users").child(selectedUser.getUsername()).setValue(selectedUser).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                CommonUtils.showToast("User Added");
+                                dialog.dismiss();
+                                userChosen.setVisibility(View.VISIBLE);
+                                userChosen.setText("User: " + selectedUser.getFullName());
+                            }
+                        });
+                    } catch (Exception e) {
+                        CommonUtils.showToast("Please enter full name");
+                        name.requestFocus();
+                        name.setError("Enter full name");
+                    }
+
+
+                }
+            }
+        });
+
+
+        dialog.show();
     }
 
     private void showDleteAlert(final InvoiceItemModel model) {
@@ -316,7 +407,9 @@ public class EditInvoice extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-            getInvoiceDataFromServer();
+            if (invoiceId != null) {
+                getInvoiceDataFromServer();
+            }
         } else {
 
         }

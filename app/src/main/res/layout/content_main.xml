@@ -55,7 +55,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_marginTop="50dp"
         android:orientation="vertical">
 
         <ImageView
@@ -73,6 +73,7 @@
             android:background="@drawable/button_blue_bg">
 
             <TextView
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -91,224 +92,282 @@
             android:text="View your data by clicking any of the\nbelow option"
             android:textSize="11sp" />
 
-        <androidx.cardview.widget.CardView
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content">
 
-            android:layout_marginRight="20dp"
-            app:cardElevation="5dp">
-
-            <RelativeLayout
-                android:id="@+id/currentAssignments"
+            <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                android:layout_height="match_parent"
-                android:clickable="true"
 
-                android:foreground="?android:attr/selectableItemBackground">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/new_order" />
+                    android:layout_marginRight="20dp"
+                    app:cardElevation="5dp">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/next" />
+                    <RelativeLayout
+                        android:id="@+id/calender"
+                        android:layout_width="match_parent"
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="60dp"
-                    android:text="Current Assignment"
-                    android:textColor="#000"
-                    android:textSize="20sp" />
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+                        android:layout_height="match_parent"
+                        android:clickable="true"
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
+                        android:foreground="?android:attr/selectableItemBackground">
 
-            android:layout_marginRight="20dp"
-            app:cardElevation="5dp">
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/new_order" />
 
-            <RelativeLayout
-                android:id="@+id/createInvoice"
-                android:layout_width="match_parent"
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="10dp"
+                            android:src="@drawable/next" />
 
-                android:layout_height="match_parent"
-                android:clickable="true"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="60dp"
+                            android:text="Calender"
+                            android:textColor="#000"
+                            android:textSize="20sp" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
 
-                android:foreground="?android:attr/selectableItemBackground">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/invoice" />
+                    android:layout_marginRight="20dp"
+                    app:cardElevation="5dp">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/next" />
+                    <RelativeLayout
+                        android:id="@+id/currentAssignments"
+                        android:layout_width="match_parent"
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="60dp"
-                    android:text="Create Invoice"
-                    android:textColor="#000"
-                    android:textSize="20sp" />
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+                        android:layout_height="match_parent"
+                        android:clickable="true"
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
+                        android:foreground="?android:attr/selectableItemBackground">
 
-            android:layout_marginRight="20dp"
-            app:cardElevation="5dp">
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/new_order" />
 
-            <RelativeLayout
-                android:id="@+id/expenses"
-                android:layout_width="match_parent"
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="10dp"
+                            android:src="@drawable/next" />
 
-                android:layout_height="match_parent"
-                android:clickable="true"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="60dp"
+                            android:text="Jobs"
+                            android:textColor="#000"
+                            android:textSize="20sp" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
 
-                android:foreground="?android:attr/selectableItemBackground">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/ic_expense" />
+                    android:layout_marginRight="20dp"
+                    app:cardElevation="5dp">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/next" />
+                    <RelativeLayout
+                        android:id="@+id/createInvoice"
+                        android:layout_width="match_parent"
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="60dp"
-                    android:text="Expenses"
-                    android:textColor="#000"
-                    android:textSize="20sp" />
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+                        android:layout_height="match_parent"
+                        android:clickable="true"
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
+                        android:foreground="?android:attr/selectableItemBackground">
 
-            android:layout_marginRight="20dp"
-            app:cardElevation="5dp">
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/invoice" />
 
-            <RelativeLayout
-                android:id="@+id/assignmentHistory"
-                android:layout_width="match_parent"
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="10dp"
+                            android:src="@drawable/next" />
 
-                android:layout_height="match_parent"
-                android:clickable="true"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="60dp"
+                            android:text="Create Invoice"
+                            android:textColor="#000"
+                            android:textSize="20sp" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
 
-                android:foreground="?android:attr/selectableItemBackground">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/history" />
+                    android:layout_marginRight="20dp"
+                    app:cardElevation="5dp">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/next" />
+                    <RelativeLayout
+                        android:id="@+id/expenses"
+                        android:layout_width="match_parent"
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="60dp"
-                    android:text="Assignment History"
-                    android:textColor="#000"
-                    android:textSize="20sp" />
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+                        android:layout_height="match_parent"
+                        android:clickable="true"
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            app:cardElevation="5dp">
+                        android:foreground="?android:attr/selectableItemBackground">
 
-            <RelativeLayout
-                android:id="@+id/myratings"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clickable="true"
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/ic_expense" />
 
-                android:foreground="?android:attr/selectableItemBackground">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="10dp"
+                            android:src="@drawable/next" />
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/ratings" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="60dp"
+                            android:text="Expenses"
+                            android:textColor="#000"
+                            android:textSize="20sp" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/next" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="60dp"
-                    android:text="My Rating"
-                    android:textColor="#000"
-                    android:textSize="20sp" />
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+                    android:layout_marginRight="20dp"
+                    app:cardElevation="5dp">
+
+                    <RelativeLayout
+                        android:id="@+id/assignmentHistory"
+                        android:layout_width="match_parent"
+
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+
+                        android:foreground="?android:attr/selectableItemBackground">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/history" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="10dp"
+                            android:src="@drawable/next" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="60dp"
+                            android:text="Assignment History"
+                            android:textColor="#000"
+                            android:textSize="20sp" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="10dp"
+                    app:cardElevation="5dp">
+
+                    <RelativeLayout
+                        android:id="@+id/myratings"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+
+                        android:foreground="?android:attr/selectableItemBackground">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/ratings" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="10dp"
+                            android:src="@drawable/next" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="60dp"
+                            android:text="My Profile"
+                            android:textColor="#000"
+                            android:textSize="20sp" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </ScrollView>
+
     </LinearLayout>
+
 
 </RelativeLayout>

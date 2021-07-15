@@ -1,6 +1,8 @@
 package com.appsinventiv.mrappliancestaff.Models;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     String firstname, lastname, username, password, email, mobile, phone, address, fcmKey;
     long time;
     boolean numberVerified;
@@ -29,6 +31,22 @@ public class User {
         this.lat = lat;
         this.lon = lon;
 
+    }
+
+    public User(String firstname, String lastname, String username, String password,
+                String email, String mobile, String phone,
+                String address, String fcmKey, long time, boolean numberVerified) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.mobile = mobile;
+        this.phone = phone;
+        this.address = address;
+        this.fcmKey = fcmKey;
+        this.time = time;
+        this.numberVerified = numberVerified;
     }
 
     public User() {

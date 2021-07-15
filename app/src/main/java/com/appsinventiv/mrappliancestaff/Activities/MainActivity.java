@@ -1,21 +1,34 @@
 package com.appsinventiv.mrappliancestaff.Activities;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import com.appsinventiv.mrappliancestaff.Activities.Calender.CalenderView;
+import com.appsinventiv.mrappliancestaff.Activities.Calender.NewCalenderView;
 import com.appsinventiv.mrappliancestaff.Activities.Expenses.ExpnesesList;
 import com.appsinventiv.mrappliancestaff.Activities.Invoices.InvoicesActivity;
 import com.appsinventiv.mrappliancestaff.Activities.Invoices.InvoicesList;
+import com.appsinventiv.mrappliancestaff.Activities.Jobs.AppointmentModel;
+import com.appsinventiv.mrappliancestaff.Activities.Jobs.JobsActivity;
+import com.appsinventiv.mrappliancestaff.Utils.CommonUtils;
 import com.appsinventiv.mrappliancestaff.Utils.SharedPrefs;
 
 import android.view.View;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,21 +47,29 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.util.AbstractSequentialList;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     ImageView nav;
     private DrawerLayout drawer;
-    RelativeLayout currentAssignments, myratings, assignmentHistory, createInvoice, expenses;
+    RelativeLayout currentAssignments, myratings, assignmentHistory, createInvoice, expenses, calender;
     TextView username;
     DatabaseReference mDatabase;
+    TextView name;
+    public static ArrayList<AppointmentModel> appointmentList = new ArrayList<>();
+    private double lng, lat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        getPermissions();
+//        updateFcmKeyAndCoordinates();
 
-        mDatabase.child("Servicemen").child(SharedPrefs.getUser().getUsername()).child("fcmKey").setValue(FirebaseInstanceId.getInstance().getToken());
 
         username = findViewById(R.id.username);
         username.setText(SharedPrefs.getUser().getName());
@@ -56,10 +77,24 @@ public class MainActivity extends AppCompatActivity
         nav = findViewById(R.id.nav);
         expenses = findViewById(R.id.expenses);
         currentAssignments = findViewById(R.id.currentAssignments);
+        calender = findViewById(R.id.calender);
         createInvoice = findViewById(R.id.createInvoice);
         myratings = findViewById(R.id.myratings);
 //        complaints = findViewById(R.id.complaints);
         assignmentHistory = findViewById(R.id.assignmentHistory);
+        name = findViewById(R.id.name);
+        name.setText("Welcome, " + SharedPrefs.getUser().getName());
+        calender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (appointmentList.size() > 0) {
+                    startActivity(new Intent(MainActivity.this, NewCalenderView.class));
+                } else {
+                    CommonUtils.showToast("Plz wait");
+                }
+//                startActivity(new Intent(MainActivity.this, CalenderView.class));
+            }
+        });
 
         createInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +112,7 @@ public class MainActivity extends AppCompatActivity
         currentAssignments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, AssignedOrders.class));
+                startActivity(new Intent(MainActivity.this, JobsActivity.class));
 
             }
         });
@@ -92,12 +127,79 @@ public class MainActivity extends AppCompatActivity
         myratings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, MyRatings.class));
+                startActivity(new Intent(MainActivity.this, MyAccount.class));
             }
         });
 
-
+        getDataFromServer();
         initDrawer();
+    }
+
+    private void updateFcmKeyAndCoordinates() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("fcmKey", FirebaseInstanceId.getInstance().getToken());
+        map.put("latitude", lat);
+        map.put("longitude", lng);
+        mDatabase.child("Servicemen").child(SharedPrefs.getUser().getUsername()).updateChildren(map);
+    }
+
+
+    private void getDataFromServer() {
+
+        mDatabase.child("Appointments").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                appointmentList.clear();
+                if (dataSnapshot.getValue() != null) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        AppointmentModel model = snapshot.getValue(AppointmentModel.class);
+                        if (model != null) {
+                            appointmentList.add(model);
+                        }
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getPermissions() {
+
+
+        int PERMISSION_ALL = 1;
+        String[] PERMISSIONS = {
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+
+
+        };
+
+        if (!hasPermissions(this, PERMISSIONS)) {
+            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
+        } else {
+//            Intent intent = new Intent(MapsActivity.this, GPSTrackerActivity.class);
+//            startActivityForResult(intent, 1);
+        }
+    }
+
+
+    public boolean hasPermissions(Context context, String... permissions) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                } else {
+                    Intent intent = new Intent(MainActivity.this, GPSTrackerActivity.class);
+                    startActivityForResult(intent, 1);
+                }
+            }
+        }
+        return true;
     }
 
     private void getAdminFCMkey() {
@@ -135,6 +237,24 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            if (data != null) {
+                Bundle extras = data.getExtras();
+                lng = extras.getDouble("Longitude");
+                lat = extras.getDouble("Latitude");
+                if (lng > 10) {
+                    updateFcmKeyAndCoordinates();
+                }
+
+
+            }
+
+        }
+    }
 
     @Override
     public void onBackPressed() {

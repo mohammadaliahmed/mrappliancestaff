@@ -148,6 +148,45 @@ public class CommonUtils {
 
     }
 
+    public static String getMonthAndYear(long smsTimeInMilis) {
+        Calendar smsTime = Calendar.getInstance();
+        smsTime.setTimeInMillis(smsTimeInMilis);
+
+
+        return DateFormat.format("MMM yyy", smsTime).toString();
+
+    }
+
+    public static String getDayNumber(long smsTimeInMilis) {
+        Calendar smsTime = Calendar.getInstance();
+        smsTime.setTimeInMillis(smsTimeInMilis);
+
+        return DateFormat.format("dd", smsTime).toString();
+    }
+
+    public static String getMonthNumber(long smsTimeInMilis) {
+        Calendar smsTime = Calendar.getInstance();
+        smsTime.setTimeInMillis(smsTimeInMilis);
+
+        return DateFormat.format("MM", smsTime).toString();
+    }
+
+    public static String getYear(long smsTimeInMilis) {
+        Calendar smsTime = Calendar.getInstance();
+        smsTime.setTimeInMillis(smsTimeInMilis);
+
+        return DateFormat.format("yyyy", smsTime).toString();
+    }
+
+    public static String getDayName(long smsTimeInMilis) {
+        Calendar smsTime = Calendar.getInstance();
+        smsTime.setTimeInMillis(smsTimeInMilis);
+
+
+        return DateFormat.format("EEE", smsTime).toString();
+
+    }
+
     public static boolean getWhichRateToCharge(String choosenTime) {
 
         boolean isPeakTime = false;
@@ -188,5 +227,10 @@ public class CommonUtils {
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
+
+    public static String getMonthNameAbbr(int month) {
+        String[] monthNames = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+        return monthNames[month];
+    }
 
 }

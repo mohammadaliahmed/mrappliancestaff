@@ -76,42 +76,59 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:padding="5dp"
-                    android:text="To: "
-                    android:textColor="#000" />
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/userChosen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:padding="5dp"
-                        android:text="Customer"
-                        android:textColor="#000"
-                        android:visibility="gone" />
+                        android:text="To: "
+                        android:textColor="#000" />
 
-                    <Spinner
-                        android:id="@+id/spinner"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:clickable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:text="Client " />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/userChosen"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:padding="5dp"
+                            android:text="Customer"
+                            android:textColor="#000"
+                            android:visibility="gone" />
+
+                        <Spinner
+                            android:id="@+id/spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:clickable="true"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:text="Client " />
+                    </LinearLayout>
                 </LinearLayout>
 
+                <Button
+                    android:layout_width="200dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/createNewCustomer"
+                    android:layout_margin="20dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/btn_bg"
+                    android:inputType="textCapWords"
+                    android:text="Create New Customer"
 
+                    android:textColor="#fff"
+                    android:textSize="12sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
